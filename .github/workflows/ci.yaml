@@ -39,7 +39,7 @@ jobs:
       - name: replace deployment file with new tag
         env:
           BUILD_TAG: yasantha1995/demo-app:${{ github.run_id }}
-        run: sed "s|IMAGE_TAG|$BUILD_TAG|g" dev/deployment.yaml > dev/deployment.yaml && cat dev/deployment.yaml
+        run: sed "s|IMAGE_TAG|$BUILD_TAG|g" argocd/dev/deployment.yaml > argocd/dev/deployment.yaml
       - name: Commit files
         run: |
           git config --local user.email "yasantha1995@gmail.com"
