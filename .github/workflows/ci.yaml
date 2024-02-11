@@ -36,6 +36,8 @@ jobs:
           context: .
           push: true
           tags: yasantha1995/demo-app:${{ github.run_id }}
+      - name: list dir
+        run: ls -lhrt
       - name: replace deployment file with new tag
         env:
           BUILD_TAG: yasantha1995/demo-app:${{ github.run_id }}
