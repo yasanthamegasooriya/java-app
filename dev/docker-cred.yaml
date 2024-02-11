@@ -3,6 +3,5 @@ data:
   .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJ5YXNhbnRoYTE5OTUiLCJwYXNzd29yZCI6Illhc2FAMTk5NSIsImF1dGgiOiJlV0Z6WVc1MGFHRXhPVGsxT2xsaGMyRkFNVGs1TlE9PSJ9fX0=
 kind: Secret
 metadata:
-  creationTimestamp: null
   name: docker-cred
 type: kubernetes.io/dockerconfigjson
