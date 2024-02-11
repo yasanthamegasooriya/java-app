@@ -9,7 +9,9 @@ on:
 jobs:
   Java-build:
     runs-on: ubuntu-latest
-
+    permissions:                # Job-level permissions configuration starts here
+      contents: write           # 'write' access to repository contents
+      pull-requests: write      # 'write' access to pull requests
     steps:
       - uses: actions/checkout@v2
         name: Git checkout the repo
@@ -38,6 +40,18 @@ jobs:
         env:
           BUILD_TAG: yasantha1995/demo-app:${{ github.run_id }}
         run: sed "s|IMAGE_TAG|$BUILD_TAG|g" dev/deployment.yaml > dev/deployment.yaml && cat dev/deployment.yaml
+      - name: Commit files
+        run: |
+          git config --local user.email "yasantha1995@gmail.com"
+          git config --local user.name "Yasantha.megasooriya"
+          git commit -a -m "Add changes"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+       
+        
         
 
       
