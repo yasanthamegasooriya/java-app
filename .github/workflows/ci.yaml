@@ -27,13 +27,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      -
-        name: Build and push
+
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: yasantha1995/demo-app:githubaction
+          tags: yasantha1995/demo-app:${{ github.run_id }}
+#      - name: replace deployment file with new tag
+
       
         
        
