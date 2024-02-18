@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: java-app
-          image: nanajanashia/demo-app:java-1.0
+          image: IMAGE_TAG
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

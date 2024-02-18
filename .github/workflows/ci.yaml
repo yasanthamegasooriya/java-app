@@ -1,0 +1,64 @@
+name: Java app build
+on: 
+  push:
+    branches:
+      - "githubaction"
+  # pull_request:
+  #   branches: [ master ]
+
+jobs:
+  Java-build:
+    runs-on: ubuntu-latest
+    permissions:                # Job-level permissions configuration starts here
+      contents: write           # 'write' access to repository contents
+      pull-requests: write      # 'write' access to pull requests
+    steps:
+      - uses: actions/checkout@v2
+        name: Git checkout the repo
+      - name: setup build env
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Grant access to to gradlew
+        run: chmod +x gradlew
+      - name: Build with gradles
+        run: ./gradlew build
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: yasantha1995/demo-app:${{ github.run_id }}
+      - name: list dir
+        run: ls -lhrt
+      - name: replace deployment file with new tag
+        env:
+          BUILD_TAG: yasantha1995/demo-app:${{ github.run_id }}
+        run: | 
+          sed 's|IMAGE_TAG|$BUILD_TAG|g' argocd/kubernetes/deployment.yaml.tpl > argocd/dev/deployment.yaml
+      - name: Commit files
+        run: |
+          git config --local user.email "yasantha1995@gmail.com"
+          git config --local user.name "Yasantha.megasooriya"
+          git commit -a -m "Add changes"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+       
+        
+        
+
+      
+        
+       
+
+    
