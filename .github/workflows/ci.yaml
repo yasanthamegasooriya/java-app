@@ -42,7 +42,7 @@ jobs:
         env:
           BUILD_TAG: yasantha1995/demo-app:${{ github.run_id }}
         run: | 
-          sed -i "s/demo-app:.*/demo-app:${{ github.run_id }}/g" >> argocd/kubernetes/deployment.yaml
+          sed -i "s/demo-app:.*/demo-app:${{ github.run_id }}/g" argocd/kubernetes/deployment.yaml
       - name: Commit files
         run: |
           git config --local user.email "yasantha1995@gmail.com"
