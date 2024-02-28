@@ -42,12 +42,13 @@ jobs:
         env:
           BUILD_TAG: yasantha1995/demo-app:${{ github.run_id }}
         run: | 
-          sed 's|IMAGE_TAG|$BUILD_TAG|g' argocd/kubernetes/deployment.yaml.tpl > argocd/dev/deployment.yaml
+          sed -i "s/demo-app:.*/demo-app:${{ github.run_id }}/g" >> argocd/kubernetes/deployment.yaml
       - name: Commit files
         run: |
           git config --local user.email "yasantha1995@gmail.com"
           git config --local user.name "Yasantha.megasooriya"
-          git commit -a -m "Add changes"
+          git add argocd/kubernetes/deployment.yaml
+          git commit -a -m "update images"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
